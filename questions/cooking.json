@@ -1,0 +1,55 @@
+{
+    "categories": [
+        {
+            "name": "Baking",
+            "questions": [
+                {
+                    "question": "What is the purpose of baking powder in recipes?",
+                    "options": [
+                        {"text": "Add flavor", "correct": false},
+                        {"text": "Provide leavening", "correct": true},
+                        {"text": "Add color", "correct": false},
+                        {"text": "Thicken the mixture", "correct": false}
+                    ],
+                    "references": [
+                        {"url": "https://www.bobsredmill.com/blog/baking-101/what-is-baking-powder/"}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ingredients",
+            "questions": [
+                {
+                    "question": "Which of these is NOT a common substitute for eggs in baking?",
+                    "options": [
+                        {"text": "Applesauce", "correct": false},
+                        {"text": "Banana", "correct": false},
+                        {"text": "Flaxseed", "correct": false},
+                        {"text": "Olive oil", "correct": true}
+                    ],
+                    "references": [
+                        {"url": "https://www.healthline.com/nutrition/egg-substitutes"}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Techniques",
+            "questions": [
+                {
+                    "question": "What does 'mise en place' mean in cooking?",
+                    "options": [
+                        {"text": "Cleaning as you go", "correct": false},
+                        {"text": "Putting everything in its place", "correct": true},
+                        {"text": "Cooking slowly", "correct": false},
+                        {"text": "Using fresh ingredients", "correct": false}
+                    ],
+                    "references": [
+                        {"url": "https://www.thespruceeats.com/what-is-mise-en-place-995576"}
+                    ]
+                }
+            ]
+        }
+    ]
+}

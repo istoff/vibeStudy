@@ -1,0 +1,50 @@
+{
+    "categories": [
+        {
+            "name": "JavaScript",
+            "questions": [
+                {
+                    "question": "Which keyword is used to declare a variable in JavaScript?",
+                    "options": [
+                        {"text": "var", "correct": true},
+                        {"text": "int", "correct": false},
+                        {"text": "string", "correct": false},
+                        {"text": "variable", "correct": false}
+                    ],
+                    "references": [
+                        {"url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var"}
+                    ]
+                },
+                {
+                    "question": "What does the '===' operator do in JavaScript?",
+                    "options": [
+                        {"text": "Assigns a value", "correct": false},
+                        {"text": "Compares value and type", "correct": true},
+                        {"text": "Checks for inequality", "correct": false},
+                        {"text": "Performs addition", "correct": false}
+                    ],
+                    "references": [
+                        {"url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality"}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Python",
+            "questions": [
+                {
+                    "question": "How do you create a list in Python?",
+                    "options": [
+                        {"text": "Using curly braces {}", "correct": false},
+                        {"text": "Using square brackets []", "correct": true},
+                        {"text": "Using parentheses ()", "correct": false},
+                        {"text": "Using angle brackets <>", "correct": false}
+                    ],
+                    "references": [
+                        {"url": "https://docs.python.org/3/tutorial/introduction.html#lists"}
+                    ]
+                }
+            ]
+        }
+    ]
+}

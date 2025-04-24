@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Study Game - Admin</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .admin-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .json-editor {
+            width: 100%;
+            min-height: 300px;
+            font-family: monospace;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Exam Study Game Admin</h1>
+        
+        <div class="admin-section">
+            <h2>Manage Exam Topics</h2>
+            <div class="form-group">
+                <label for="new-topic">Add New Topic:</label>
+                <input type="text" id="new-topic" placeholder="Topic name">
+                <button id="add-topic">Add Topic</button>
+            </div>
+            
+            <div class="form-group">
+                <label>Existing Topics:</label>
+                <div id="topic-list"></div>
+            </div>
+        </div>
+        
+        <div class="admin-section">
+            <h2>Import Questions</h2>
+            <div class="form-group">
+                <label for="import-topic">Select Topic:</label>
+                <select id="import-topic"></select>
+            </div>
+            
+            <div class="form-group">
+                <label>Import Mode:</label>
+                <select id="import-mode">
+                    <option value="replace">Replace All Questions</option>
+                    <option value="append">Append to Existing</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>JSON Data:</label>
+                <textarea id="import-json" class="json-editor" placeholder="Paste question JSON here"></textarea>
+            </div>
+            
+            <button id="import-btn">Import Questions</button>
+            <button id="validate-btn">Validate JSON</button>
+        </div>
+        
+        <div class="admin-section">
+            <h2>Question Editor</h2>
+            <div class="form-group">
+                <label for="edit-topic">Select Topic to Edit:</label>
+                <select id="edit-topic"></select>
+            </div>
+            <div id="question-editor" style="display:none">
+                <div class="grid-controls">
+                    <button id="add-category">Add Category</button>
+                    <button id="add-question">Add Question</button>
+                    <button id="save-questions">Save All Changes</button>
+                </div>
+                <div class="grid-container">
+                    <div class="grid-header">
+                        <div>Category</div>
+                        <div>Question</div>
+                        <div>Options</div>
+                        <div>References</div>
+                        <div>Actions</div>
+                    </div>
+                    <div id="questions-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h2>JSON Format Documentation</h2>
+            <pre id="json-template" class="json-editor"></pre>
+            <button id="copy-template">Copy Template</button>
+            <button id="back-to-game">Back to Game</button>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

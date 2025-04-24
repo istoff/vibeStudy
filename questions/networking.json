@@ -1,0 +1,51 @@
+{
+    "categories": [
+        {
+            "name": "Protocols",
+            "questions": [
+                {
+                    "question": "Which protocol is used for secure communication over a computer network?",
+                    "options": [
+                        {"text": "HTTP", "correct": false},
+                        {"text": "HTTPS", "correct": true},
+                        {"text": "FTP", "correct": false},
+                        {"text": "SMTP", "correct": false}
+                    ],
+                    "references": [
+                        {"title": "HTTPS on Wikipedia", "url": "https://en.wikipedia.org/wiki/HTTPS"},
+                        {"title": "MDN Web Docs", "url": "https://developer.mozilla.org/en-US/docs/Glossary/HTTPS"}
+                    ]
+                },
+                {
+                    "question": "What port does DNS typically use?",
+                    "options": [
+                        {"text": "22", "correct": false},
+                        {"text": "53", "correct": true},
+                        {"text": "80", "correct": false},
+                        {"text": "443", "correct": false}
+                    ],
+                    "references": [
+                        {"title": "DNS Port Number", "url": "https://www.cloudflare.com/learning/dns/what-is-dns/"}
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Handshaking",
+            "questions": [
+                {
+                    "question": "What is the purpose of a TCP three-way handshake?",
+                    "options": [
+                        {"text": "To encrypt data", "correct": false},
+                        {"text": "To establish a connection", "correct": true},
+                        {"text": "To compress data", "correct": false},
+                        {"text": "To authenticate users", "correct": false}
+                    ],
+                    "references": [
+                        {"title": "TCP Handshake Explained", "url": "https://www.techopedia.com/definition/10339/three-way-handshake"}
+                    ]
+                }
+            ]
+        }
+    ]
+}
