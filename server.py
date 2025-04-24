@@ -212,7 +212,7 @@ def get_questions(topic):
     questions = db.execute('''
         SELECT q.id, q.question, c.name as category, 
                json_group_array(json_object('text', o.text, 'correct', o.is_correct)) as options,
-               json_group_array(json_object('title', r.title, 'url', r.url)) as references
+               json_group_array(json_object('title', r.title, 'url', r.url)) as "references"
         FROM questions q
         JOIN categories c ON q.category_id = c.id
         JOIN topics t ON c.topic_id = t.id

@@ -4,14 +4,16 @@ const gameState = {
     currentScore: 0,
     targetScore: 50,
     currentTopic: 'networking',
-    boardSize: 30,
+    boardSize: 24,
     specialSpaces: {
-        5: { type: 'bonus', value: 5 },
-        10: { type: 'penalty', value: -3 },
-        15: { type: 'bonus', value: 7 },
-        20: { type: 'penalty', value: -5 },
-        25: { type: 'question' },
-        29: { type: 'question' }
+        3: { type: 'bonus', value: 3 },
+        6: { type: 'fact', text: 'Did you know? Practice makes perfect!' },
+        9: { type: 'challenge', action: 'Name 3 protocols in 10 seconds' },
+        12: { type: 'bonus', value: 5 },
+        15: { type: 'penalty', value: -3 },
+        18: { type: 'fact', text: 'Tip: Review wrong answers to learn faster' },
+        21: { type: 'challenge', action: 'Explain a concept in your own words' },
+        23: { type: 'bonus', value: 7 }
     },
     questions: {}
 };
@@ -94,12 +96,22 @@ async function loadQuestions(topic) {
     }
 }
 
-// Render the game board
+// Render the game board as a circular path
 function renderBoard() {
     boardElement.innerHTML = '';
+    const centerX = boardElement.offsetWidth / 2;
+    const centerY = boardElement.offsetHeight / 2;
+    const radius = Math.min(centerX, centerY) - 50;
+    
     for (let i = 0; i < gameState.boardSize; i++) {
+        const angle = (i / gameState.boardSize) * 2 * Math.PI;
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+        
         const space = document.createElement('div');
         space.className = 'board-space';
+        space.style.left = `${x}px`;
+        space.style.top = `${y}px`;
         space.textContent = i + 1;
         
         if (i === gameState.currentPosition) {
@@ -111,18 +123,56 @@ function renderBoard() {
             switch (gameState.specialSpaces[i].type) {
                 case 'bonus':
                     space.textContent = '+';
+                    space.title = `Bonus: +${gameState.specialSpaces[i].value} points`;
                     break;
                 case 'penalty':
                     space.textContent = '-';
+                    space.title = `Penalty: ${gameState.specialSpaces[i].value} points`;
                     break;
-                case 'question':
-                    space.textContent = '?';
+                case 'fact':
+                    space.textContent = '!';
+                    space.title = gameState.specialSpaces[i].text;
+                    break;
+                case 'challenge':
+                    space.textContent = '★';
+                    space.title = gameState.specialSpaces[i].action;
                     break;
             }
         }
         
         boardElement.appendChild(space);
+        
+        // Draw path to next space
+        if (i > 0) {
+            const nextAngle = ((i + 1) / gameState.boardSize) * 2 * Math.PI;
+            const nextX = centerX + radius * Math.cos(nextAngle);
+            const nextY = centerY + radius * Math.sin(nextAngle);
+            
+            const path = document.createElement('div');
+            path.className = 'board-path';
+            path.style.left = `${x}px`;
+            path.style.top = `${y}px`;
+            path.style.width = `${Math.sqrt(Math.pow(nextX - x, 2) + Math.pow(nextY - y, 2))}px`;
+            path.style.transform = `rotate(${Math.atan2(nextY - y, nextX - x)}rad)`;
+            boardElement.appendChild(path);
+        }
     }
+    
+    // Connect last space to first
+    const firstAngle = 0;
+    const firstX = centerX + radius * Math.cos(firstAngle);
+    const firstY = centerY + radius * Math.sin(firstAngle);
+    const lastAngle = ((gameState.boardSize - 1) / gameState.boardSize) * 2 * Math.PI;
+    const lastX = centerX + radius * Math.cos(lastAngle);
+    const lastY = centerY + radius * Math.sin(lastAngle);
+    
+    const closingPath = document.createElement('div');
+    closingPath.className = 'board-path';
+    closingPath.style.left = `${lastX}px`;
+    closingPath.style.top = `${lastY}px`;
+    closingPath.style.width = `${Math.sqrt(Math.pow(firstX - lastX, 2) + Math.pow(firstY - lastY, 2))}px`;
+    closingPath.style.transform = `rotate(${Math.atan2(firstY - lastY, firstX - lastX)}rad)`;
+    boardElement.appendChild(closingPath);
 }
 
 // Start the game
@@ -156,10 +206,8 @@ function rollDice() {
         rollDiceBtn.classList.remove('dice-rolling');
         rollDiceBtn.disabled = false;
         
-        // Show question after every move (not just on question spaces)
-        if (Math.random() > 0.3) { // 70% chance of question
-            setTimeout(showQuestion, 500);
-        }
+        // Show question after every move
+        setTimeout(showQuestion, 500);
     }, 500);
 }
 
@@ -182,19 +230,34 @@ function movePlayer(spaces) {
     }
 }
 
-// Check if player landed on a special space
+// Check space effect - triggers question on every space
 function checkSpaceEffect() {
     const space = gameState.specialSpaces[gameState.currentPosition];
-    if (!space) return;
+    showQuestion();
     
-    switch (space.type) {
-        case 'bonus':
-        case 'penalty':
-            updateScore(space.value);
-            break;
-        case 'question':
-            showQuestion();
-            break;
+    if (space) {
+        switch (space.type) {
+            case 'bonus':
+            case 'penalty':
+                updateScore(space.value);
+                break;
+            case 'fact':
+                alert(space.text);
+                break;
+            case 'challenge':
+                if (confirm(`${space.action}\n\nPress OK if you completed it for +3 points!`)) {
+                    updateScore(3);
+                }
+                break;
+        }
+    } else {
+        // Default action for normal spaces
+        const randomAction = Math.random();
+        if (randomAction > 0.7) {
+            updateScore(1); // Small bonus
+        } else if (randomAction > 0.4) {
+            alert('Quick tip: Regular study sessions improve retention!');
+        }
     }
 }
 
@@ -278,6 +341,18 @@ function checkAnswer(isCorrect, optionElement) {
 function resetGame() {
     gameBoard.classList.add('hidden');
     startScreen.classList.remove('hidden');
+    gameState.currentPosition = 0;
+    gameState.currentScore = 0;
+    currentScoreDisplay.textContent = '0';
+}
+
+// Add return to menu button
+function addMenuButton() {
+    const menuBtn = document.createElement('button');
+    menuBtn.textContent = 'Return to Menu';
+    menuBtn.id = 'menu-btn';
+    menuBtn.addEventListener('click', resetGame);
+    document.getElementById('game-board').prepend(menuBtn);
 }
 
 // Watch for storage changes
@@ -288,4 +363,7 @@ window.addEventListener('storage', (e) => {
 });
 
 // Initialize the game when DOM is loaded
-document.addEventListener('DOMContentLoaded', initGame);
+document.addEventListener('DOMContentLoaded', () => {
+    initGame();
+    addMenuButton();
+});
